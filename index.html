@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Big Soft Love</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000016;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    #center-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 30px;
+      color: white;
+      font-family: 'Courier New', monospace;
+      text-shadow: 0 0 10px hotpink, 0 0 20px hotpink;
+      z-index: 10;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.1); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="heartCanvas"></canvas>
+  <div id="center-text">I love you baby a lot 🤍</div>
+
+  <script>
+    const canvas = document.getElementById("heartCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    let t = 3;
+    const message = "I Love You ";
+    const fontSize = 18;
+
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 22, 0.2)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.font = fontSize + "px Arial";
+      ctx.fillStyle = "hotpink";
+      ctx.textAlign = "center";
+
+      for (let i = 0; i < 300; i++) {
+        const angle = i * 0.1 + t;
+
+        // 💗 Smooth, bigger heart shape
+        const x = 16 * Math.pow(Math.sin(angle), 3);
+        const y = -(
+          12 * Math.cos(angle) -
+          5 * Math.cos(2 * angle) -
+          2 * Math.cos(3 * angle)
+        );
+
+        const scale = 30; // ❤️ Increase size
+        const posX = canvas.width / 2 + x * scale;
+        const posY = canvas.height / 2 + y * scale;
+
+        ctx.fillText(message, posX, posY);
+      }
+
+      t += 0.001;
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  </script>
+</body>
+</html>
